@@ -45,7 +45,21 @@ while keepGoing:
 
 ## void ComputerGuesser()
 ```
-create Integer variables named userNumber, computerGuess, and binarySearch
+create Integer variables named count, computerGuess, and binarySearch
+create a String named userResponse
+create a boolean keepGoing
 set computerGuess to 50
-
+set binarySearch and count to 0
+while keepGoing:
+  binarySearch = computerGuess / 2
+  count += 1
+  asks user if number is computerGuess and if it's too high, too low, or correct
+  record user's response to userResponse
+  if userResponse == "l"
+    computerGuess += binarySearch
+  if userResponse == "h"
+    computerGuess -= binarySearch
+  if userResponse == "c"
+    keepGoing = false
+    output count to show number of attempts until guessed
 ```
