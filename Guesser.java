@@ -38,7 +38,7 @@ public class Guesser{
         }// end if
       }// end try
       catch (InputMismatchException e) {
-        System.out.println("You can only input numbers between 0-2. Please Try Again.");
+        System.out.println("You can only input integers. Please Try Again.");
       }//end catch
     }// end while
   }// end mainLoop
@@ -64,10 +64,10 @@ public class Guesser{
           count -= 1;
         }
         else if (userGuess > random){
-          System.out.println("Too High...");
+          System.out.println("Guess Too High...");
         }
         else if (userGuess < random){
-          System.out.println("Too Low...");
+          System.out.println("Guess Too Low...");
         }
         else if (userGuess == random){
           System.out.printf("Congrats! You got the number in %,d attempts. %n", count);
@@ -104,8 +104,18 @@ public class Guesser{
       if (userResponse.equals("h")){
         upLimit = guess - 1;
       }
+      else if (userResponse.equals("H")){
+        upLimit = guess - 1;
+      }
+      else if (userResponse.equals("L")){
+        lowLimit = guess + 1;
+      }
       else if (userResponse.equals("l")){
         lowLimit = guess + 1;
+      }
+      else if (userResponse.equals("C")){
+        System.out.printf("Number correctly guessed in %,d attempts. %n", count);
+        keepGoing = false;
       }
       else if (userResponse.equals("c")){
         System.out.printf("Number correctly guessed in %,d attempts. %n", count);
