@@ -22,19 +22,24 @@ public class Guesser{
     int response;
     Guesser guess = new Guesser();
     while (keepGoing) {
-      response = menu();
-      if (response == 0){
-        keepGoing = false;
-      }
-      else if (response == 1){
-        guess.humanGuesser();
-      }
-      else if (response == 2){
-        System.out.println("You chose Computer Guesser");
-      }
-      else{
+      try {
+        response = menu();
+        if (response == 0){
+          keepGoing = false;
+        }
+        else if (response == 1){
+          guess.humanGuesser();
+        }
+        else if (response == 2){
+          guess.computerGuesser();
+        }
+        else{
+          System.out.println("You can only input numbers between 0-2. Please Try Again.");
+        }// end if
+      }// end try
+      catch (InputMismatchException e) {
         System.out.println("You can only input numbers between 0-2. Please Try Again.");
-      }// end if
+      }//end catch
     }// end while
   }// end mainLoop
   
@@ -43,43 +48,73 @@ public class Guesser{
     boolean keepGoing = true;
     random = (int)(Math.random() * 100)+1;
     count = 0;
-    System.out.println(random);
     Scanner sc = new Scanner(System.in);
     while (keepGoing){
-      count += 1;
-      System.out.print("Choose a number between 1 and 100: ");
-      userGuess = sc.nextInt();
-      System.out.println("");
-      if (userGuess > random){
-        System.out.println("Too High...");
-      }
-      else if (userGuess < random){
-        System.out.println("Too Low...");
-      }
-      else if (userGuess == random){
-        System.out.printf("Congrats! You got the number in %,d attempts. %n", count);
-        keepGoing = false;
-      }
-      else{
-        System.out.println("Error: Please Choose a Number Between 1-100.");
-      }// end if
+      try {
+        count += 1;
+        System.out.print("Choose a number between 1 and 100: ");
+        userGuess = sc.nextInt();
+        System.out.println("");
+        if (userGuess <= 0){
+          System.out.println("Error: Please Choose a Number Between 1-100.");
+          count -= 1;
+        }
+        else if (userGuess > 100){
+          System.out.println("Error: Please Choose a Number Between 1-100.");
+          count -= 1;
+        }
+        else if (userGuess > random){
+          System.out.println("Too High...");
+        }
+        else if (userGuess < random){
+          System.out.println("Too Low...");
+        }
+        else if (userGuess == random){
+          System.out.printf("Congrats! You got the number in %,d attempts. %n", count);
+          keepGoing = false;
+        }
+        else{
+          System.out.println("Error: Please Choose a Number Between 1-100.");
+          count -= 1;
+        }// end if
+      }// end try
+      catch (InputMismatchException e) {
+        System.out.println("Error: Please only enter integers.");
+        count -= 1;
+        sc.next();
+      }// end catch
     }// end while
   }// end humanGuesser
 
   void computerGuesser(){
-    int count, computerGuess, binarySearch;
+    int count, lowLimit, upLimit, guess;
     String userResponse;
     boolean keepGoing = true;
     count = 0;
-    computerGuess = 50;
+    lowLimit = 1;
+    upLimit = 100;
     Scanner sc = new Scanner(System.in);
     while (keepGoing){
-      binarySearch = computerGuess / 2;
       count += 1;
-      System.out.printf("%,d) I guess %,d. %n", count, computerGuess);
-      System.out.print("Too (H)igh, Too (L)ow, or (C)orrect? ");
+      guess = lowLimit + (upLimit - lowLimit) / 2;
+      System.out.printf("%,d) I guess %,d. %n", count, guess);
+      System.out.print("Too (h)igh, Too (l)ow, or (c)orrect? ");
       userResponse = sc.next();
-
+      System.out.println("");
+      if (userResponse.equals("h")){
+        upLimit = guess - 1;
+      }
+      else if (userResponse.equals("l")){
+        lowLimit = guess + 1;
+      }
+      else if (userResponse.equals("c")){
+        System.out.printf("Number correctly guessed in %,d attempts. %n", count);
+        keepGoing = false;
+      }
+      else{
+        System.out.println("Error: Please enter only h, l, or c.");
+        count -= 1;
+      }// end if
     }//end while
   }// end computerGuesser
 
